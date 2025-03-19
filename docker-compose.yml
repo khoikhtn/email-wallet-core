@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  prover:
+    image: hduoc2003/email-wallet-prover
+    ports:
+      - "8080:8080"
+    tty: true
+    stdin_open: true
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=emailwallet
+      - POSTGRES_DB=emailwallet
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./mount-data:/var/lib/postgresql/data"
