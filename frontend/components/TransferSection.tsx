@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, FormEvent } from 'react';
-import { useStore } from '../store/useStore';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { sendToken, sendCW20, sendNFT } from '@/lib/api';
+import { useAppContext } from '@/hooks/AppContext';
 
 export default function Form() {
   const [amount, setAmount] = useState('');
@@ -13,7 +13,7 @@ export default function Form() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [selectedTab, setSelectedTab] = useState<'xion' | 'cw20' | 'nft'>('xion');
 
-  const { email, appPassword } = useStore();
+  const { email, appPassword } = useAppContext();
 
   const handleTabSwitch = (tab: 'xion' | 'cw20' | 'nft') => {
     setSelectedTab(tab);
@@ -24,10 +24,19 @@ export default function Form() {
     setSuccessMessage(false);
   };
 
+  useEffect(() => {
+    console.log("Current Email:", email);
+    console.log("Current App Password:", appPassword);
+  }, [email, appPassword]);
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setSuccessMessage(false);
+
+    if (email === null || appPassword === null) {
+      throw Error('Email or app password is missing');
+    }
 
     try {
       if (selectedTab === 'xion') {

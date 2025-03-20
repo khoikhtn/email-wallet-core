@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter from next/router
 import { getWalletAddress, sendContactEmail } from '../lib/api';
-import { useStore } from '../store/useStore';
+import { useAppContext } from '@/hooks/AppContext';
 
 export default function Form() {
   const [sender, setSender] = useState('');
@@ -12,7 +12,7 @@ export default function Form() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
 
-  const { setEmail, setAppPassword: setAppPasswordInStore } = useStore();
+  const { email, appPassword: appPass, setEmail, setAppPassword: setAppPasswordInStore } = useAppContext();
 
   const router = useRouter();
 
@@ -41,6 +41,11 @@ export default function Form() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    console.log('Updated Email:', email);
+    console.log('Updated App Password:', appPass);
+  }, [email, appPass]);
 
   return (
     <div className="w-full max-w-2xl shadow-md rounded-lg p-6 bg-gray-100 mb-20">

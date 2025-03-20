@@ -62,7 +62,7 @@ export const getWalletBalance = async (data: { accountAddr: string }): Promise<{
 
 
 export const getWalletAddress = async (data: { email: string }): Promise<{ address: string }> => {
-  return fetch(`${BASE_URL}/get-wallet-address`, {
+  return fetch(`${BASE_URL}/get-wallet-address-using-email`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
