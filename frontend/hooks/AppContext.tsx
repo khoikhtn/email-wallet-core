@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface AppContextType {
   email: string | null;
@@ -15,19 +15,36 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [email, setEmail] = useState<string | null>(null);
   const [appPassword, setAppPassword] = useState<string | null>(null);
 
-  const contextValue: AppContextType = {
-    email,
-    setEmail,
-    appPassword,
-    setAppPassword
-  }
+  // ✅ Load from localStorage on initial render
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    const storedAppPassword = localStorage.getItem("appPassword");
+
+    if (storedEmail) setEmail(storedEmail);
+    if (storedAppPassword) setAppPassword(storedAppPassword);
+  }, []);
+
+  // ✅ Save to localStorage whenever state changes
+  useEffect(() => {
+    if (email) {
+      localStorage.setItem("email", email);
+    } else {
+      localStorage.removeItem("email");
+    }
+
+    if (appPassword) {
+      localStorage.setItem("appPassword", appPassword);
+    } else {
+      localStorage.removeItem("appPassword");
+    }
+  }, [email, appPassword]);
 
   return (
-    <AppContext.Provider value={contextValue}>
+    <AppContext.Provider value={{ email, setEmail, appPassword, setAppPassword }}>
       {children}
     </AppContext.Provider>
-  )
-}
+  );
+};
 
 export const useAppContext = () => {
   const context = useContext(AppContext);
@@ -35,5 +52,4 @@ export const useAppContext = () => {
     throw new Error("useAppContext must be used within an AppProvider");
   }
   return context;
-}
-
+};

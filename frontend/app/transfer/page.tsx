@@ -1,12 +1,19 @@
-import React from "react";
+'use client'
+
+import React, { useEffect } from "react";
 import Layout from "@/components/Layout";
 import TransferSection from "@/components/TransferSection";
-import { AppProvider } from "@/hooks/AppContext";
+import { AppProvider, useAppContext } from "@/hooks/AppContext";
 
 export default function TransferPage() {
+  const { email } = useAppContext();
+
+  useEffect(() => {
+    console.log('Email: ', email);
+  }, [email])
+
+
   return (
-    <AppProvider>
-      <TransferSection />
-    </AppProvider>
+    <TransferSection />
   )
 }

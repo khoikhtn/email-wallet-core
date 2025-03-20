@@ -9,5 +9,5 @@ export default function Home() {
     <Layout>
       <Form />
     </Layout>
-  );
+  )
 }
