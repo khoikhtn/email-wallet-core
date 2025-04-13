@@ -74,3 +74,34 @@ export const getWalletAddress = async (data: { email: string }): Promise<{ addre
     return res.json();
   });
 };
+
+export const getTransactionsHistory = async (walletAddress: string): Promise<any> => {
+  return fetch(`${BASE_URL}/transactions-history/${walletAddress}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  }).then((res) => {
+    if (!res.ok) throw new Error("Failed to get transactions history");
+    return res.json();
+  })
+}
+
+export const addTransactionHistory = async (data: {
+  sender: string;
+  recipient: string;
+  action: string;
+}): Promise<{ message: string; docId: string }> => {
+  return fetch(`${BASE_URL}/transactions-history`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (!res.ok) throw new Error("Failed to add transaction");
+    return res.json();
+  });
+};
+
