@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, FormEvent, useEffect } from 'react';
-import { sendToken, sendCW20, sendNFT } from '@/lib/api';
+import { sendToken, sendCW20, sendNFT, addTransactionHistory } from '@/lib/api';
 import { useAppContext } from '@/hooks/AppContext';
 
 export default function Form() {
@@ -13,7 +13,7 @@ export default function Form() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [selectedTab, setSelectedTab] = useState<'xion' | 'cw20' | 'nft'>('xion');
 
-  const { email, appPassword } = useAppContext();
+  const { email, appPassword, walletAddress } = useAppContext();
 
   const handleTabSwitch = (tab: 'xion' | 'cw20' | 'nft') => {
     setSelectedTab(tab);
@@ -41,12 +41,27 @@ export default function Form() {
     try {
       if (selectedTab === 'xion') {
         await sendToken({ email, appPassword, recipient: recipientAddress, amount: parseFloat(amount) });
+        await addTransactionHistory({
+          sender: walletAddress ?? '',
+          recipient: recipientAddress,
+          action: `Sent ${amount} UXION`,
+        });
       } else if (selectedTab === 'cw20') {
         await sendCW20({ email, appPassword, recipient: recipientAddress, contractAddress, amount: parseFloat(amount) });
+        await addTransactionHistory({
+          sender: walletAddress ?? '',
+          recipient: recipientAddress,
+          action: `Sent ${amount} CW20 tokens`,
+        });
       } else if (selectedTab === 'nft') {
         await sendNFT({ email, appPassword, recipient: recipientAddress, contractAddress, tokenId });
+        await addTransactionHistory({
+          sender: walletAddress ?? '',
+          recipient: recipientAddress,
+          action: `Sent NFT ${tokenId}`,
+        });
       }
-
+      
       setSuccessMessage(true);
     } catch (error) {
       console.error('Error: ', error);

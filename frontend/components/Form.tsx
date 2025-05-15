@@ -10,9 +10,8 @@ export default function Form() {
   const [appPassword, setAppPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
-  const [walletAddress, setWalletAddress] = useState('');
 
-  const { email, appPassword: appPass, setEmail, setAppPassword: setAppPasswordInStore } = useAppContext();
+  const { email, appPassword: appPass, setEmail, setAppPassword: setAppPasswordInStore, walletAddress, setWalletAddress } = useAppContext();
 
   const router = useRouter();
 

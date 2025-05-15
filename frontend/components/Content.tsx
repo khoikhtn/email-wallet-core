@@ -21,11 +21,15 @@ export default function MiddleContent() {
         <a href="/transfer" className="text-blue-600 hover:underline">
           {" "} 
           Transfer Assets
-        </a>{" "}
-        or{" "}
+        </a>
+        ,{" "}
         <a href="/wallet-balance" className="text-blue-600 hover:underline">
           Check Wallet Balance
-        </a>
+        </a>{" "}
+        or{" "}
+        <a href="/transactions-history" className="text-blue-600 hover:underline">
+          Check transactions history
+        </a>{" "}
         .
       </p>
       <p className="text-base text-gray-500">

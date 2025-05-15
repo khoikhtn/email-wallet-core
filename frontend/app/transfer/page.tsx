@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import Layout from "@/components/Layout";
 import TransferSection from "@/components/TransferSection";
-import { AppProvider, useAppContext } from "@/hooks/AppContext";
+import { useAppContext } from "@/hooks/AppContext";
 
 export default function TransferPage() {
   const { email } = useAppContext();
@@ -14,6 +14,8 @@ export default function TransferPage() {
 
 
   return (
-    <TransferSection />
+    <Layout>
+      <TransferSection />
+    </Layout>
   )
 }
