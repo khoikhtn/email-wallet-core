@@ -81,6 +81,7 @@ export default function TransactionsHistory() {
 }
 
 const shortenAddress = (address: string) => {
-  if (address.length <= 13) return address; // just in case it's short
+  if (address.includes('@')) return address;
+  if (address.length <= 13) return address;
   return `${address.slice(0, 8)}...${address.slice(-5)}`;
 };
